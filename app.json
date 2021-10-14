@@ -1,5 +1,7 @@
 {
   "expo": {
+    "entryPoint": "./src/App.js",
+    
     "name": "VocaList",
     "slug": "VocaList",
     "version": "1.0.0",
