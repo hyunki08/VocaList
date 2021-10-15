@@ -1,7 +1,7 @@
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -48,6 +48,7 @@ const TabScreen = () => (
 
 export default function App() {
   const [cards, setCards] = useState({});
+  const [loading, setLoading] = useState(true);
   const addCard = async (card) => {
     const newCards = { ...cards, [Date.now()]: { ...card } }
     try {
@@ -70,6 +71,7 @@ export default function App() {
     if (cards) {
       setCards(cards);
     }
+    setLoading(false);
   };
   const cardsUtil = {
     cards: { ...cards },
@@ -79,16 +81,22 @@ export default function App() {
   useEffect(() => { loadCards() }, [])
   return (
     <View style={styles.container}>
-      <AppContext.Provider value={cardsUtil}>
-        <StatusBar style="light" />
-        <NavigationContainer theme={{ ...DefaultTheme, colors: { ...DefaultTheme.colors, background: "black" } }}>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Home" component={TabScreen} />
-            <Stack.Screen name="AddPage" component={AddPage} />
-            <Stack.Screen name="StudyPage" component={StudyPage} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </AppContext.Provider>
+      {!loading ? (
+        <AppContext.Provider value={cardsUtil}>
+          <StatusBar style="light" />
+          <NavigationContainer theme={{ ...DefaultTheme, colors: { ...DefaultTheme.colors, background: "black" } }}>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Home" component={TabScreen} />
+              <Stack.Screen name="AddPage" component={AddPage} />
+              <Stack.Screen name="StudyPage" component={StudyPage} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </AppContext.Provider>
+      ) : (
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      )}
     </View>
   );
 }
