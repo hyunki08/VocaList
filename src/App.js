@@ -1,17 +1,19 @@
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
-
 import { styles } from './Style';
+import { AppContext } from './AppContext';
 import { ListPage } from './Pages/ListPage';
 import { AddPage } from './Pages/AddPage';
-import { StudyPage as ReadyPage } from './Pages/ReadyPage';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { ReadyPage } from './Pages/ReadyPage';
+import { StudyPage } from './Pages/StudyPage';
+import { STORAGE_KEY_CARDS } from './Constants';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -45,15 +47,48 @@ const TabScreen = () => (
 );
 
 export default function App() {
+  const [cards, setCards] = useState({});
+  const addCard = async (card) => {
+    const newCards = { ...cards, [Date.now()]: { ...card } }
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(newCards));
+      setCards(newCards);
+    } catch { return false; }
+    return true;
+  }
+  const deleteCard = async (id) => {
+    const newCards = { ...cards };
+    try {
+      delete newCards[id];
+      await AsyncStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(newCards));
+      setCards(newCards);
+    } catch { return false; }
+    return true;
+  }
+  const loadCards = async () => {
+    const cards = JSON.parse(await AsyncStorage.getItem(STORAGE_KEY_CARDS));
+    if (cards) {
+      setCards(cards);
+    }
+  };
+  const cardsUtil = {
+    cards: { ...cards },
+    addCard: addCard,
+    deleteCard: deleteCard,
+  }
+  useEffect(() => { loadCards() }, [])
   return (
     <View style={styles.container}>
-      <StatusBar style="light" />
-      <NavigationContainer theme={{ ...DefaultTheme, colors: { ...DefaultTheme.colors, background: "black" } }}>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={TabScreen} />
-          <Stack.Screen name="AddPage" component={AddPage} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <AppContext.Provider value={cardsUtil}>
+        <StatusBar style="light" />
+        <NavigationContainer theme={{ ...DefaultTheme, colors: { ...DefaultTheme.colors, background: "black" } }}>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={TabScreen} />
+            <Stack.Screen name="AddPage" component={AddPage} />
+            <Stack.Screen name="StudyPage" component={StudyPage} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AppContext.Provider>
     </View>
   );
 }

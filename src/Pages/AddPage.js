@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { SafeAreaView, Text, View, Pressable, Alert, Animated } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../Style';
 import { MaterialIcons } from '@expo/vector-icons';
 import { VocaCard } from '../Components/VocaCard';
 import { STORAGE_KEY_CARDS } from '../Constants';
 import { Input } from '../Components/Input';
+import { AppContext } from '../AppContext';
 
 const DEFAULT_CARD_DATA = {
     checked: false,
@@ -13,6 +13,7 @@ const DEFAULT_CARD_DATA = {
 };
 
 export const AddPage = ({ navigation, route }) => {
+    const cardsUtil = useContext(AppContext);
     const [state, setState] = useState();
     const endVocaEditing = (value) => {
         const newState = { ...state, voca: value };
@@ -42,7 +43,7 @@ export const AddPage = ({ navigation, route }) => {
             }).start();
         }
     }
-    const onSave = async (save) => {
+    const save = async (save) => {
         if (save) {
             if (!state || !state?.voca) { Alert.alert("단어", "단어를 입력하세요.", [{ text: "확인" }]); return; }
             if (!state || !state?.interpretation) { Alert.alert("뜻", "뜻을 입력하세요.", [{ text: "확인" }]); return; }
@@ -50,10 +51,11 @@ export const AddPage = ({ navigation, route }) => {
             try {
                 // 11월 1일 오전 11시
                 // 일요일 저녁 7시
-                const oldCards = JSON.parse(await AsyncStorage.getItem(STORAGE_KEY_CARDS));
-                const newCards = oldCards ? { ...oldCards, [Date.now()]: { ...state, ...DEFAULT_CARD_DATA } } : { [Date.now()]: { ...state, ...DEFAULT_CARD_DATA } };
-                await AsyncStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(newCards));
-                Alert.alert("성공", "단어가 정상적으로 추가되었습니다.", [{ text: "확인", onPress: () => { navigation.pop(); } }]);
+                const result = cardsUtil.addCard({ ...state, ...DEFAULT_CARD_DATA });
+                if (result)
+                    Alert.alert("성공", "단어가 정상적으로 추가되었습니다.", [{ text: "확인", onPress: () => { navigation.pop(); } }]);
+                else
+                    Alert.alert("실패", "알 수 없는 이유로 단어를 추가할 수 없습니다.", [{ text: "확인", onPress: () => { navigation.pop(); } }]);
             } catch {
                 Alert.alert("실패", "알 수 없는 이유로 단어를 추가할 수 없습니다.", [{ text: "확인", onPress: () => { navigation.pop(); } }]);
             }
@@ -64,7 +66,7 @@ export const AddPage = ({ navigation, route }) => {
     return (
         <SafeAreaView style={styles.page}>
             <View style={{ ...styles.subTitle }}>
-                <Pressable onPress={() => onSave(false)}>
+                <Pressable onPress={() => save(false)}>
                     <MaterialIcons name="arrow-back-ios" size={30} color="white" style={{ marginRight: 10 }} />
                 </Pressable>
                 <Text style={styles.subTitleText}>단어 추가</Text>
@@ -80,7 +82,7 @@ export const AddPage = ({ navigation, route }) => {
                 </Animated.View>
 
                 <View style={{ flexGrow: 1, justifyContent: "flex-end" }}>
-                    <Pressable style={styles.button} onPress={() => onSave(true)}>
+                    <Pressable style={styles.button} onPress={() => save(true)}>
                         <Text style={styles.buttonText}>저장</Text>
                     </Pressable>
                 </View>

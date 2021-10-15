@@ -5,7 +5,7 @@ import { OPTION_CHECKED, OPTION_LABEL, OPTION_REPEAT, OPTION_SORT } from '../Con
 import { styles } from "../Style";
 import { StudyAnim } from '../Components/StudyAnim';
 
-export const StudyPage = ({ navigation }) => {
+export const ReadyPage = ({ navigation }) => {
     const [state, setState] = useState({
         sort: OPTION_SORT.default,
         repeat: OPTION_REPEAT.default,
@@ -24,6 +24,7 @@ export const StudyPage = ({ navigation }) => {
     const start = () => {
         console.log("start");
         console.log(state);
+        navigation.push('StudyPage', { ...state });
     };
     return (
         <SafeAreaView style={styles.page}>
