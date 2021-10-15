@@ -1,14 +1,15 @@
 export const STORAGE_KEY_CARDS = "@cards";
 
-
+export const LABEL_INDEX = ["none", "yellow", "green", "red"];
 export const LABEL_COLORS = ["#777", "#F2F200", "#77E87A", "#F14949"];
 export const LABEL_COLORS_INACTIVE = ["#333", "#8A5D0F", "#10712B", "#660000"];
 
 export const OPTION_SORT = {
     name: "정렬",
-    default: "saved",
+    default: "old",
     values: [
-        { name: "저장순", value: "saved", icon: "", activeColor: "white", inactiveColor: "#999" },
+        { name: "Old", value: "old", icon: "", activeColor: "white", inactiveColor: "#999" },
+        { name: "New", value: "new", icon: "", activeColor: "white", inactiveColor: "#999" },
         { name: "A->Z", value: "atoz", icon: "", activeColor: "white", inactiveColor: "#999" },
         { name: "Z->A", value: "ztoa", icon: "", activeColor: "white", inactiveColor: "#999" },
         { name: "랜덤", value: "random", icon: "", activeColor: "white", inactiveColor: "#999" },

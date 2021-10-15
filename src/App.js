@@ -57,6 +57,14 @@ export default function App() {
     } catch { return false; }
     return true;
   }
+  const modifyCard = async (id, card) => {
+    const newCards = { ...cards, [id]: { ...card } }
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(newCards));
+      setCards(newCards);
+    } catch { return false; }
+    return true;
+  }
   const deleteCard = async (id) => {
     const newCards = { ...cards };
     try {
@@ -76,6 +84,7 @@ export default function App() {
   const cardsUtil = {
     cards: { ...cards },
     addCard: addCard,
+    modifyCard: modifyCard,
     deleteCard: deleteCard,
   }
   useEffect(() => { loadCards() }, [])

@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons } from '@expo/vector-icons';
 import { styles } from '../Style';
 import { STORAGE_KEY_CARDS, LABEL_COLORS } from '../Constants';
+import { useContext } from 'react/cjs/react.development';
+import { AppContext } from '../AppContext';
 
 const Label = ({ level = 0, onPress }) => {
     return (
@@ -34,12 +36,14 @@ const Check = ({ checked = false, onPress }) => {
 }
 
 export const VocaCard = ({ id, card, disabled = false, selected = false }) => {
+    const cardsUtil = useContext(AppContext);
     const [state, setState] = useState({ id, card, selected });
     const onSelect = () => setState({ ...state, selected: !state.selected });
     const save = async (newCard) => {
-        const oldCards = JSON.parse(await AsyncStorage.getItem(STORAGE_KEY_CARDS));
-        const newCards = { ...oldCards, [id]: newCard };
-        await AsyncStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(newCards));
+        // const oldCards = JSON.parse(await AsyncStorage.getItem(STORAGE_KEY_CARDS));
+        // const newCards = { ...oldCards, [id]: newCard };
+        // await AsyncStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(newCards));
+        cardsUtil.modifyCard(id, newCard);
     }
     const onPressLabel = async () => {
         const newCard = { ...state.card };

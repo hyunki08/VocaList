@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Text, View, Pressable, SafeAreaView } from 'react-native';
+import { Text, View, Pressable, SafeAreaView, Alert } from 'react-native';
 import { Option } from '../Components/Option';
-import { OPTION_CHECKED, OPTION_LABEL, OPTION_REPEAT, OPTION_SORT } from '../Constants';
+import { OPTION_CHECKED, OPTION_LABEL, OPTION_REPEAT, OPTION_SORT, LABEL_INDEX } from '../Constants';
 import { styles } from "../Style";
 import { StudyAnim } from '../Components/StudyAnim';
+import { useContext } from 'react/cjs/react.development';
+import { AppContext } from '../AppContext';
 
 export const ReadyPage = ({ navigation }) => {
+    const cards = useContext(AppContext).cards;
     const [state, setState] = useState({
         sort: OPTION_SORT.default,
         repeat: OPTION_REPEAT.default,
@@ -22,9 +25,31 @@ export const ReadyPage = ({ navigation }) => {
     const changeChecked = (value) => setState({ ...state, checked: value });
     const changeRepeat = (value) => setState({ ...state, repeat: value });
     const start = () => {
-        console.log("start");
-        console.log(state);
-        navigation.push('StudyPage', { ...state });
+        const keys = Object.keys(cards);
+        if (keys.length === 0) { Alert.alert("학습 불가", "학습 할 수 있는 단어 카드가 없습니다.", [{ text: "확인" }]); return; }
+        const filteredKeys = keys.filter(key => {
+            return (
+                ((state.label === "all") ||
+                    (state.label !== "all" && state.label === LABEL_INDEX[cards[key].markLevel])) &&
+                ((state.checked === "all") ||
+                    (state.checked !== "all" && state.checked === (cards[key].checked ? "yes" : "no")))
+            );
+        });
+        filteredKeys.sort((a, b) => {
+            if (state.sort === "new") {
+                return a < b;
+            } else if (state.sort === "old") {
+                return a > b;
+            } else if (state.sort === "atoz") {
+                return cards[a].voca > cards[b].voca;
+            } else if (state.sort === "ztoa") {
+                return cards[a].voca < cards[b].voca;
+            } else if (state.sort === "random") {
+                return (Math.random() > .5) ? 1 : -1;
+            }
+        });
+        if (filteredKeys.length === 0) { Alert.alert("단어 카드 부족", "학습 할 수 있는 단어 카드가 없습니다.", [{ text: "확인" }]); return; }
+        navigation.push("StudyPage", { repeat: state.repeat, keys: filteredKeys });
     };
     return (
         <SafeAreaView style={styles.page}>

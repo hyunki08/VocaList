@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Text, View, Pressable, SafeAreaView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { styles } from "../Style";
 import { AppContext } from '../AppContext';
 
 export const StudyPage = ({ navigation, route }) => {
-    const cardsUtil = useContext(AppContext).cards;
     const onBack = () => {
         navigation.pop();
     };
+    console.log(route);
     return (
         <SafeAreaView style={styles.page}>
             <View style={{ ...styles.subTitle }}>
