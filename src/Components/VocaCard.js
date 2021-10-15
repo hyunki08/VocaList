@@ -3,15 +3,21 @@ import { Text, View, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons } from '@expo/vector-icons';
 import { styles } from '../Style';
-import { STORAGE_KEY_CARDS } from '../Constants';
-
-const LABEL_COLORS = ["#222", "yellow", "green", "red"];
+import { STORAGE_KEY_CARDS, LABEL_COLORS } from '../Constants';
 
 const Label = ({ level = 0, onPress }) => {
     return (
         <Pressable
             onPress={onPress}
-            style={{ position: "absolute", right: 25, width: 20, height: 30, borderBottomEndRadius: 5, borderBottomStartRadius: 5, backgroundColor: LABEL_COLORS[level] }}
+            style={{
+                position: "absolute",
+                right: 25,
+                width: 20,
+                height: 30,
+                borderBottomEndRadius: 5,
+                borderBottomStartRadius: 5,
+                backgroundColor: LABEL_COLORS[level]
+            }}
         />
     );
 }
@@ -22,7 +28,7 @@ const Check = ({ checked = false, onPress }) => {
             onPress={onPress}
             style={{ position: "absolute", right: 20, bottom: 15, width: 40, height: 40, alignItems: "flex-end", justifyContent: "flex-end" }}
         >
-            <MaterialIcons name="check" size={30} color={checked ? "white" : "#222"} />
+            <MaterialIcons name="check" size={30} color={checked ? "white" : "#333"} />
         </Pressable>
     );
 }

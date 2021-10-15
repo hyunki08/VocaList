@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     },
 
     vocaCard: {
-        backgroundColor: "#333",
+        backgroundColor: "#555",
         width: "100%",
         marginVertical: 10,
         borderRadius: 20,
@@ -51,6 +51,15 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "500",
         marginTop: 15
+    },
+
+    studyOptionToggle: {
+        flex: 1,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 2,
+        borderRadius: 20
     },
 
     input: {
@@ -91,7 +100,7 @@ export const styles = StyleSheet.create({
     buttonText: {
         color: "#333",
         fontSize: 24,
-        fontWeight: "500"
+        fontWeight: "600"
     },
     titleText: {
         color: "white",
@@ -102,5 +111,16 @@ export const styles = StyleSheet.create({
         color: "white",
         fontSize: 30,
         fontWeight: "700"
+    },
+    studyOptionTitle: {
+        fontSize: 20,
+        fontWeight: "600",
+        marginLeft: 5,
+        marginRight: 25,
+    },
+    studyOptionToggleText: {
+        fontSize: 18,
+        fontWeight: "500",
+        marginHorizontal: 5,
     }
 });
