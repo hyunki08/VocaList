@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, View, Pressable } from 'react-native';
+import { ScrollView, Text, View, Pressable, SafeAreaView } from 'react-native';
 import { styles } from "../Style";
 
 export const StudyPage = ({ navigation }) => {
@@ -7,16 +7,16 @@ export const StudyPage = ({ navigation }) => {
         console.log("start");
     };
     return (
-        <View style={styles.page}>
+        <SafeAreaView style={styles.page}>
             <View style={styles.title}>
-                <Text style={styles.titleText}>학습하기</Text>
+                <Text style={styles.titleText}>학습 시작</Text>
             </View>
 
-            <View style={{ flexGrow: 1, justifyContent: "flex-end" }}>
+            <View style={{ flexGrow: 1, justifyContent: "flex-end", marginBottom: 20}}>
                 <Pressable style={styles.button} onPress={start}>
                     <Text style={styles.buttonText}>시작하기</Text>
                 </Pressable>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }

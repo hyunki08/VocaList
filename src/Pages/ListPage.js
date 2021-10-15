@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { ScrollView, Text, View, Pressable } from 'react-native';
+import { ScrollView, Text, View, Pressable, SafeAreaView } from 'react-native';
 import { styles } from '../Style';
 import { MaterialIcons } from '@expo/vector-icons';
 import { VocaCard } from '../Components/VocaCard';
@@ -22,7 +22,7 @@ export const ListPage = ({ navigation, route }) => {
         }, [])
     );
     return (
-        <View style={styles.page}>
+        <SafeAreaView style={styles.page}>
             <View style={styles.title}>
                 <Text style={styles.titleText}>내 단어장</Text>
             </View>
@@ -49,6 +49,6 @@ export const ListPage = ({ navigation, route }) => {
             <Pressable style={styles.floatingButton} onPress={addVoca}>
                 <MaterialIcons name="add" size={30} color="black" />
             </Pressable>
-        </View>
+        </SafeAreaView>
     );
 }

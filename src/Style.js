@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     page: {
         flex: 1,
         marginHorizontal: 10,
+        backgroundColor: '#000',
     },
     title: {
         flexDirection: "row",
@@ -74,12 +75,12 @@ export const styles = StyleSheet.create({
     },
     floatingButton: {
         backgroundColor: "white",
-        width: 60,
-        height: 60,
-        borderRadius: 30,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
         position: 'absolute',
-        bottom: 10,
-        right: 10,
+        bottom: 20,
+        right: 20,
         alignItems: "center",
         justifyContent: "center"
     },

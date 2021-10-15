@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Text, View, Pressable, Alert, Animated } from 'react-native';
+import { SafeAreaView, Text, View, Pressable, Alert, Animated } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../Style';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -62,7 +62,7 @@ export const AddPage = ({ navigation, route }) => {
         }
     };
     return (
-        <View style={styles.page}>
+        <SafeAreaView style={styles.page}>
             <View style={{ ...styles.subTitle }}>
                 <Pressable onPress={() => onSave(false)}>
                     <MaterialIcons name="arrow-back-ios" size={30} color="white" style={{ marginRight: 10 }} />
@@ -85,6 +85,6 @@ export const AddPage = ({ navigation, route }) => {
                     </Pressable>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
