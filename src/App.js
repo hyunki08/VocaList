@@ -10,7 +10,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { styles } from './Style';
 import { ListPage } from './Pages/ListPage';
 import { AddPage } from './Pages/AddPage';
-import { StudyPage } from './Pages/StudyPage';
+import { StudyPage as ReadyPage } from './Pages/ReadyPage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Stack = createNativeStackNavigator();
@@ -18,10 +18,11 @@ const Tab = createBottomTabNavigator();
 
 const TabScreen = () => (
   <Tab.Navigator
+    initialRouteName="ListPage"
     screenOptions={({ route }) => ({
       tabBarIcon: ({ color, size }) => {
         let iconName;
-        if (route.name === "StudyPage") {
+        if (route.name === "ReadyPage") {
           iconName = "school"
         } else if (route.name === "ListPage") {
           iconName = "format-list-bulleted"
@@ -38,7 +39,7 @@ const TabScreen = () => (
       }
     })}
   >
-    <Tab.Screen name="StudyPage" component={StudyPage} />
+    <Tab.Screen name="ReadyPage" component={ReadyPage} />
     <Tab.Screen name="ListPage" component={ListPage} />
   </Tab.Navigator>
 );
