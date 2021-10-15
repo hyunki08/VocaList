@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { styles } from './Style';
 import { ListPage } from './Pages/ListPage';
 import { AddPage } from './Pages/AddPage';
+import { StudyPage } from './Pages/StudyPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
       <StatusBar style="light" />
       <NavigationContainer theme={{ ...DefaultTheme, colors: { ...DefaultTheme.colors, background: "black" } }}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="StudyPage" component={StudyPage} />
           <Stack.Screen name="ListPage" component={ListPage} />
           <Stack.Screen name="AddPage" component={AddPage} />
         </Stack.Navigator>
