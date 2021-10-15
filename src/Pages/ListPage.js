@@ -24,24 +24,27 @@ export const ListPage = ({ navigation, route }) => {
     return (
         <View style={styles.page}>
             <View style={styles.title}>
-                <Text style={styles.titleText}>단어장</Text>
+                <Text style={styles.titleText}>내 단어장</Text>
             </View>
 
-            <ScrollView>
-                {cards ?
-                    Object.keys(cards).map(key => (
+            {!!cards && Object.keys(cards).length > 0 &&
+                <ScrollView>
+                    {Object.keys(cards).map(key => (
                         <VocaCard
                             key={key}
-                            voca={cards[key].voca}
-                            interpretation={cards[key].interpretation}
-                            description={cards[key].description}
+                            id={key}
+                            card={cards[key]}
                         />
-                    )) : (
-                        <View>
-                            <Text style={styles.text}>단어장이 비어있습니다.</Text>
-                        </View>
-                    )}
-            </ScrollView>
+                    ))}
+                </ScrollView>
+            }
+
+            {(!cards || (!!cards && Object.keys(cards).length === 0)) &&
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <Text style={{ ...styles.text, fontSize: 18, fontWeight: "600", marginTop: -100 }}>단어장이 비어있습니다.</Text>
+                    <Text style={{ ...styles.text, fontSize: 16, fontWeight: "600", marginTop: 10 }}>+ 버튼을 눌러 단어를 추가하세요.</Text>
+                </View>
+            }
 
             <Pressable style={styles.floatingButton} onPress={addVoca}>
                 <MaterialIcons name="add" size={30} color="black" />

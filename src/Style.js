@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginVertical: 25,
+        marginHorizontal: 10
     },
     subTitle: {
         flexDirection: "row",

@@ -7,6 +7,11 @@ import { VocaCard } from '../Components/VocaCard';
 import { STORAGE_KEY_CARDS } from '../Constants';
 import { Input } from '../Components/Input';
 
+const DEFAULT_CARD_DATA = {
+    checked: false,
+    markLevel: 0,
+};
+
 export const AddPage = ({ navigation, route }) => {
     const [state, setState] = useState();
     const endVocaEditing = (value) => {
@@ -39,14 +44,14 @@ export const AddPage = ({ navigation, route }) => {
     }
     const onSave = async (save) => {
         if (save) {
-            if (!state.voca) { Alert.alert("단어", "단어를 입력하세요.", [{ text: "확인" }]); return; }
-            if (!state.interpretation) { Alert.alert("뜻", "뜻을 입력하세요.", [{ text: "확인" }]); return; }
+            if (!state || !state?.voca) { Alert.alert("단어", "단어를 입력하세요.", [{ text: "확인" }]); return; }
+            if (!state || !state?.interpretation) { Alert.alert("뜻", "뜻을 입력하세요.", [{ text: "확인" }]); return; }
 
             try {
                 // 11월 1일 오전 11시
                 // 일요일 저녁 7시
                 const oldCards = JSON.parse(await AsyncStorage.getItem(STORAGE_KEY_CARDS));
-                const newCards = oldCards ? { ...oldCards, [Date.now()]: { ...state } } : { [Date.now()]: { ...state } };
+                const newCards = oldCards ? { ...oldCards, [Date.now()]: { ...state, ...DEFAULT_CARD_DATA } } : { [Date.now()]: { ...state, ...DEFAULT_CARD_DATA } };
                 await AsyncStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(newCards));
                 Alert.alert("성공", "단어가 정상적으로 추가되었습니다.", [{ text: "확인", onPress: () => { navigation.pop(); } }]);
             } catch {
@@ -65,7 +70,7 @@ export const AddPage = ({ navigation, route }) => {
                 <Text style={styles.subTitleText}>단어 추가</Text>
             </View>
 
-            <VocaCard {...state} disabled={true} selected={true} />
+            <VocaCard card={{ ...state }} disabled={true} selected={true} />
 
             <View style={{ flex: 1 }}>
                 <Animated.View style={{ transform: [{ translateY: moveAnim }], backgroundColor: "black" }}>
