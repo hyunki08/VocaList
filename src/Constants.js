@@ -1,5 +1,10 @@
 export const STORAGE_KEY_CARDS = "@cards";
 
+export const DEFAULT_CARD_DATA = {
+    checked: false,
+    markLevel: 0,
+};
+
 export const LABEL_INDEX = ["none", "yellow", "green", "red"];
 export const LABEL_COLORS = ["#777", "#F2F200", "#77E87A", "#F14949"];
 export const LABEL_COLORS_INACTIVE = ["#333", "#8A5D0F", "#10712B", "#660000"];

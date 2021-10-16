@@ -24,7 +24,7 @@ export const StudyPage = ({ navigation, route }) => {
             setCurIndex((curIndex + 1) % indexs.length);
             return;
         }
-        Alert.alert("학습 종료", "학습이 종료되었습니다.", [{ text: "확인", onPress: () => onBack() }])
+        Alert.alert("학습 종료", "학습이 종료되었습니다.", [{ text: "확인", onPress: () => onBack() }]);
     }
     const onPressLabel = async () => {
         const newCard = { ...cardUtils.cards[indexs[curIndex]] };

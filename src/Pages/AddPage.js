@@ -3,16 +3,12 @@ import { SafeAreaView, Text, View, Pressable, Alert, Animated } from 'react-nati
 import { styles } from '../Style';
 import { MaterialIcons } from '@expo/vector-icons';
 import { VocaCard } from '../Components/VocaCard';
-import { STORAGE_KEY_CARDS } from '../Constants';
+import { DEFAULT_CARD_DATA } from '../Constants';
 import { Input } from '../Components/Input';
 import { AppContext } from '../AppContext';
 
-const DEFAULT_CARD_DATA = {
-    checked: false,
-    markLevel: 0,
-};
 
-export const AddPage = ({ navigation, route }) => {
+export const AddPage = ({ navigation }) => {
     const cardsUtil = useContext(AppContext);
     const [state, setState] = useState();
     const endVocaEditing = (value) => {
@@ -49,8 +45,6 @@ export const AddPage = ({ navigation, route }) => {
             if (!state || !state?.interpretation) { Alert.alert("뜻", "뜻을 입력하세요.", [{ text: "확인" }]); return; }
 
             try {
-                // 11월 1일 오전 11시
-                // 일요일 저녁 7시
                 const result = cardsUtil.addCard({ ...state, ...DEFAULT_CARD_DATA });
                 if (result)
                     Alert.alert("성공", "단어가 정상적으로 추가되었습니다.", [{ text: "확인", onPress: () => { navigation.pop(); } }]);

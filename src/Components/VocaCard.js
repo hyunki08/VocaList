@@ -40,9 +40,6 @@ export const VocaCard = ({ id, card, disabled = false, selected = false }) => {
     const [state, setState] = useState({ id, card, selected });
     const onSelect = () => setState({ ...state, selected: !state.selected });
     const save = async (newCard) => {
-        // const oldCards = JSON.parse(await AsyncStorage.getItem(STORAGE_KEY_CARDS));
-        // const newCards = { ...oldCards, [id]: newCard };
-        // await AsyncStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(newCards));
         cardsUtil.modifyCard(id, newCard);
     }
     const onPressLabel = async () => {
