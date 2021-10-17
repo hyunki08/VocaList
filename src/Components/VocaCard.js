@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Pressable } from 'react-native';
+import { Text, View, Pressable, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons } from '@expo/vector-icons';
 import { styles } from '../Style';
@@ -54,11 +54,16 @@ export const VocaCard = ({ id, card, disabled = false, selected = false }) => {
         save(newCard);
         setState({ ...state, card: newCard });
     };
+    const onPressLong = () => {
+        Alert.alert("삭제", "단어를 삭제하시겠습니까?", [{ text: "아니오" }, {
+            text: "삭제", onPress: () => { cardsUtil.deleteCard(id); }, style: "destructive"
+        }]);
+    }
     useEffect(() => {
         setState({ ...state, card });
     }, [card]);
     return (
-        <Pressable disabled={disabled} style={{ ...styles.vocaCard, height: state.selected ? 170 : 100 }} onPress={onSelect}>
+        <Pressable disabled={disabled} style={{ ...styles.vocaCard, height: state.selected ? 170 : 100 }} onPress={onSelect} onLongPress={onPressLong}>
             {disabled === false && <Label level={state.card?.markLevel} onPress={onPressLabel} />}
             {disabled === false && <Check checked={state.card?.checked} onPress={onPressCheck} />}
             <Text style={{ ...styles.text, ...styles.vocaText }}>
